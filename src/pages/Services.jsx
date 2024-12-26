@@ -48,8 +48,8 @@ export default function Services() {
           viewport={{ once: true }}
         >
           <img src={isDarkTheme ? WebRed : WebBlue} alt="Idea" />
-          <h2>$199</h2>
-          <h4>Web Development</h4>
+          {/* <h2>$199</h2> */}
+          <h3>Web Development</h3>
           <ul>
             <li>Responsive Design</li>
             <li>Frontend and Backend</li>
@@ -66,8 +66,8 @@ export default function Services() {
           viewport={{ once: true }}
         >
           <img src={isDarkTheme ? AppRed : WebBlue} alt="Idea" />
-          <h2>$399</h2>
-          <h4>App Development</h4>
+          {/* <h2>$399</h2> */}
+          <h3>App Development</h3>
           <ul>
             <li>User-Friendly</li>
             <li>Cross-Platform</li>
@@ -84,8 +84,8 @@ export default function Services() {
           viewport={{ once: true }}
         >
           <img src={isDarkTheme ? UIRed : UIBlue} alt="Idea" />
-          <h2>$299</h2>
-          <h4>UI/UX</h4>
+          {/* <h2>$299</h2> */}
+          <h3>UI/UX</h3>
           <ul>
             <li>Intuitive User Interfaces</li>
             <li>Seamless User Experiences</li>
