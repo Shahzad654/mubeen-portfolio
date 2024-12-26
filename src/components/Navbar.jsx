@@ -1,0 +1,376 @@
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Divider,
+  Drawer,
+} from "@mui/material";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FiChevronDown } from "react-icons/fi";
+import ThemeButton from './ThemeButton'
+import { SiTruenas } from "react-icons/si";
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(false); 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
+
+  const toggleProjectsDropdown = (e) => {
+    e.stopPropagation();
+    setProjectsOpen((prevState) => !prevState);
+  };
+
+
+
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  useEffect(() => {
+   
+    const themeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    console.log("system theme", themeQuery);
+    if (themeQuery.matches){
+      console.log('system color is dark')
+      setIsDarkMode(true)
+    }
+    else{
+      console.log('system color is light')
+      setIsDarkMode(false)
+    }
+
+  }, []);
+
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add("dark-mode");
+      document.body.classList.remove("light-mode");
+      sessionStorage.setItem("theme", "dark"); 
+    } else {
+      document.body.classList.add("light-mode");
+      document.body.classList.remove("dark-mode");
+      sessionStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
+
+  const DrawerList = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        {/* Home */}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              <ListItemText
+                primary="Home"
+                sx={{
+                  "& .MuiTypography-root": {
+                    color: "var(--background-color-dark)",
+                    fontFamily: "Poppins, sans-serif",
+                  },
+                }}
+              />
+            </Link>
+          </ListItemButton>
+        </ListItem>
+
+
+        <ListItem disablePadding>
+          <ListItemButton>
+            <Link
+              to="/projects"
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              <ListItemText
+                primary="Projects"
+                sx={{
+                  "& .MuiTypography-root": {
+                    color: "var(--background-color-dark)",
+                    fontFamily: "Poppins, sans-serif",
+                  },
+                }}
+              />
+            </Link>
+          </ListItemButton>
+        </ListItem>
+
+       
+        <ListItem disablePadding>
+          <ListItemButton>
+            <Link
+              to="/experience"
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              <ListItemText
+                primary="Experience"
+                sx={{
+                  "& .MuiTypography-root": {
+                    color: "var(--background-color-dark)",
+                    fontFamily: "Poppins, sans-serif",
+                  },
+                }}
+              />
+            </Link>
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton>
+            <Link
+              to="/contact"
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              <ListItemText
+                primary="Contact"
+                sx={{
+                  "& .MuiTypography-root": {
+                    color: "var(--background-color-dark)",
+                    fontFamily: "Poppins, sans-serif",
+                  },
+                }}
+              />
+            </Link>
+          </ListItemButton>
+        </ListItem>
+      </List>
+      
+      <Divider />
+      <ThemeButton isDarkMode={isDarkMode} toggleTheme={toggleTheme} style={{marginLeft:'20px'}}/>
+     
+    </Box>
+  );
+
+  return (
+    <>
+      <StyledNavbar>
+        <div className="main_navbar">
+          
+          <div className="navbar_container">
+            <Link to="/" className="links">
+              Home
+            </Link>
+
+            <Link to="/projects" className="links">
+              Projects
+            </Link>
+
+            <Link to="/experience" className="links">
+              Experience
+            </Link>
+            <Link to="/contact" className="links">
+              Contact
+            </Link>
+
+            <ThemeButton isDarkMode={isDarkMode} toggleTheme={toggleTheme}/>
+          </div>
+        </div>
+
+        <div className="mobile_menu">
+          <GiHamburgerMenu
+            onClick={toggleDrawer(true)}
+            style={{ width: "30px", height: "30px", cursor: "pointer" }}
+          />
+          <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
+            {DrawerList}
+          </Drawer>
+        </div>
+      </StyledNavbar>
+    </>
+  );
+}
+
+const StyledNavbar = styled.div`
+  /* max-height: 10vh; */
+  margin-top: 5%;
+
+
+  .main_navbar {
+    /* background-color: var(--background-color-light); */
+    border-radius: var(--l-radius);
+    padding: 0 20px;
+
+    width: max-content;
+    height: 50px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .navbar_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      padding-left: 2%;
+      padding-right: 2%;
+
+      .dropbtn {
+        /* background-color: #4caf50; */
+        color: white;
+        padding: 16px;
+        /* font-size: 16px; */
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--primary-color-light);
+        }
+      }
+
+      .links {
+        &:hover {
+          color: var(--primary-color-light);
+        }
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        /* background-color: #f9f9f9; */
+        background-color: var(--background-color-light);
+        min-width: 160px;
+        margin-left: -30px;
+        margin-top: 16px;
+        border-radius: var(--m-radius);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        border-radius: var(--s-radius);
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: var(--background-color-light);
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      a {
+        color: var(--text-white-color);
+      }
+    }
+
+    .icon_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      padding-left: 2%;
+      padding-right: 2%;
+      .icon {
+        width: 20px;
+        height: 20px;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .mobile_menu {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .main_navbar {
+      display: none;
+      .navbar_container {
+        display: none;
+      }
+    }
+    .mobile_menu {
+      display: flex;
+      justify-content: end;
+      padding-right: 6%;
+    }
+  }
+
+  body.light-mode & {
+    .main_navbar {
+      /* background-color: var(--secondary-color-dark); */
+      background: #e3edf7;
+      box-shadow: 20px 20px 60px #c1c9d2, -20px -20px 60px #ffffff;
+      a {
+        color: black;
+      }
+      .dropbtn {
+        color: black;
+        &:hover {
+          color: var(--secondary-color-light);
+        }
+      }
+
+      .links {
+        &:hover {
+          color: var(--secondary-color-light);
+        }
+      }
+
+      .dropdown-content {
+        /* background-color: var(--secondary-color-dark); */
+        background: #e3edf7;
+        box-shadow: 20px 20px 60px #c1c9d2, -20px -20px 60px #ffffff;
+        /* box-shadow: 0 20px 60px #c1c9d2, 0 -20px 60px #ffffff; */
+      }
+      .dropdown-content a {
+        color: black;
+      }
+
+      .dropdown-content a:hover {
+        background-color: var(--secondary-color-light);
+        color: white;
+      }
+    }
+  }
+
+  body.dark-mode & {
+    .main_navbar {
+      box-shadow: 4px 4px 8px var(--shadow-color-dark),
+          -4px -4px 8px var(--shadow-color-light);
+      .dropdown-content {
+        /* background-color: var(--background-color-light); */
+        background-color: white;
+      }
+      .dropdown-content a{
+        color: black;
+      }
+      .dropdown-content a:hover {
+        background-color: var(--primary-color-light);
+        color: white;
+      }
+    }
+  }
+`;
