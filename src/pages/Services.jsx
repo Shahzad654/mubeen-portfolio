@@ -85,7 +85,7 @@ export default function Services() {
         >
           <img src={isDarkTheme ? UIRed : UIBlue} alt="Idea" />
           {/* <h2>$299</h2> */}
-          <h3>UI/UX</h3>
+          <h3>UI / UX</h3>
           <ul>
             <li>Intuitive User Interfaces</li>
             <li>Seamless User Experiences</li>
